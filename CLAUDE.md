@@ -26,7 +26,9 @@ Six mini-projects, each shareable on its own:
 - `src/`: reusable Python modules
 - `notebooks/`: exploration (optional)
 - `outputs/`: charts and figures
-- `docs/`: brief, per-project notes (`PROJECT_N_NOTES.md`)
+- `docs/`: brief, per-project notes (`PROJECT_N_NOTES.md`), design specs in `docs/superpowers/specs/`
+- `scripts/`: numbered pipeline scripts, run in order (`01_download.py`, `02_...`)
+- `tests/`: pytest unit tests for `src/`
 - `reference/`: the previous attempt. It is for ideas only. Don't import from it or edit it.
 
 ## Environment
@@ -39,7 +41,7 @@ Six mini-projects, each shareable on its own:
 - SSL errors hit Python's `urllib` too, not only pandas (`CERTIFICATE_VERIFY_FAILED`). Download with `curl` for now. Likely permanent fix: run `/Applications/Python 3.14/Install Certificates.command` once (not yet tried).
 
 ## Permit data sources (spike, 2026-09-25)
-DOT street crane permits are a better fit than general DOB permits: each record is a crane placed on a street. Project 2 design is still open.
+DOT street crane permits are a better fit than general DOB permits: each record is a crane placed on a street. Project 2 design: `docs/superpowers/specs/2026-09-25-project2-permit-data-design.md`.
 - `tqtj-sjs8` Street Construction Permits (2022–present) and `c9sj-fmsg` (2013–2021, actually goes back to 1991). Same columns; stack them. Filter `permittypedesc = 'PLACE CRANE OR SHOVEL ON STREET'`. About 16.7k crane permits in the new set (77% have `locationgeometry`), about 148k in the old set (99% have geometry). No NTA column, so neighborhoods need a spatial join.
 - `hcv3-zacv` Cranes: crane type per permit (mobile, crawler, tower). Joins on `permitnumber` to either permit dataset.
 - No explicit application date. The first 8 digits of `applicationtrackingid` look like one (YYYYMMDD), but this is unverified.
