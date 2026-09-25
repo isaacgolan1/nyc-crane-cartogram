@@ -1,0 +1,13 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Large raw data (re-download from NYC Open Data)
+data/raw/*.csv
+data/raw/*.zip
+data/raw/*.geojson
+
+# macOS
+.DS_Store
