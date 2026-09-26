@@ -521,7 +521,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
   - `application_gap_days(permits: pd.DataFrame) -> pd.Series` (float days, issue date minus application date; needs columns `applicationtrackingid`, `permitissuedate`)
   - `evaluate_tracking_dates(permits: pd.DataFrame) -> dict` with keys `rows`, `parsed_share`, `not_after_issue_share`, `median_gap_days`, `passed`
 
-- [ ] **Step 1: Write the failing test `tests/test_permits.py`**
+- [x] **Step 1: Write the failing test `tests/test_permits.py`**
 
 ```python
 import pandas as pd
@@ -582,12 +582,12 @@ def test_evaluate_fails_when_median_gap_implausible():
     assert evaluate_tracking_dates(permits)["passed"] is False
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `.venv/bin/pytest tests/test_permits.py -v`
 Expected: FAIL with `ModuleNotFoundError: No module named 'src.permits'`
 
-- [ ] **Step 3: Write `src/permits.py`**
+- [x] **Step 3: Write `src/permits.py`**
 
 ```python
 """Permit timing: application date from the tracking ID, and lead time."""
@@ -636,12 +636,12 @@ def evaluate_tracking_dates(permits: pd.DataFrame) -> dict:
     }
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `.venv/bin/pytest tests/test_permits.py -v`
 Expected: 7 passed
 
-- [ ] **Step 5: Write `scripts/02_verify_tracking_id.py`**
+- [x] **Step 5: Write `scripts/02_verify_tracking_id.py`**
 
 ```python
 """Stage 2: check whether applicationtrackingid's first 8 digits are an application date."""
@@ -681,11 +681,11 @@ if __name__ == "__main__":
     main()
 ```
 
-- [ ] **Step 6: Check the data dictionary**
+- [x] **Step 6: Check the data dictionary**
 
 Open https://data.cityofnewyork.us/Transportation/Street-Construction-Permits-2022-Present-/tqtj-sjs8/about_data. Under "Attachments", open the data dictionary and search for "tracking". Write down what it says about `applicationtrackingid`, or that it says nothing. This goes in the Project 2 notes (Task 11).
 
-- [ ] **Step 7: Tell Isaac what to expect, then run it**
+- [x] **Step 7: Tell Isaac what to expect, then run it**
 
 What it does: reads the permits file and tests the three pass rules from the spec. It prints the evidence and then PASS or FAIL.
 
@@ -693,12 +693,12 @@ What he should see: nearly 100% parsing, a median gap of a few days, and New per
 
 Run: `.venv/bin/python scripts/02_verify_tracking_id.py`
 
-- [ ] **Step 8: Decision gate**
+- [x] **Step 8: Decision gate**
 
 - **PASS:** continue to Task 5.
 - **FAIL:** stop. Show Isaac the printed evidence. The spec says lead time is dropped and the DOB NOW fallback is decided with him before continuing. Do not change the pass rules to make it pass.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add src/permits.py tests/test_permits.py scripts/02_verify_tracking_id.py
