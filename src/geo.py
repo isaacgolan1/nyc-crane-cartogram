@@ -138,3 +138,38 @@ def block_midpoint(
     if len(crossings) == 1:
         return crossings[0]
     return LineString(crossings).interpolate(0.5, normalized=True)
+
+
+def assign_nta(df: pd.DataFrame, nta: gpd.GeoDataFrame) -> pd.DataFrame:
+    """Add the NTA each lat/lon point falls in. Rows without a location stay NaN."""
+    located = df[df["lat"].notna() & df["lon"].notna()]
+    points = gpd.GeoDataFrame(
+        index=located.index,
+        geometry=gpd.points_from_xy(located["lon"].astype(float), located["lat"].astype(float)),
+        crs=4326,
+    )
+    joined = gpd.sjoin(
+        points,
+        nta[["nta2020", "ntaname", "boroname", "geometry"]].to_crs(4326),
+        how="left",
+        predicate="within",
+    )
+    joined = joined[~joined.index.duplicated(keep="first")]  # a point on a shared border matches twice
+
+    out = df.copy()
+    out["nta2020"] = joined["nta2020"]
+    out["ntaname"] = joined["ntaname"]
+    out["nta_boroname"] = joined["boroname"]
+    return out
+
+
+def location_flags(df: pd.DataFrame) -> pd.Series:
+    """Why a permit can or cannot be used in neighborhood metrics."""
+    flags = pd.Series("ok", index=df.index, dtype=object)
+    flags[df["nta2020"].isna()] = "outside_nta"
+    mismatch = df["nta2020"].notna() & (
+        df["nta_boroname"].str.upper() != df["boroughname"].str.upper()
+    )
+    flags[mismatch] = "borough_mismatch"
+    flags[df["lat"].isna()] = "no_location"
+    return flags

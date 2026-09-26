@@ -1,8 +1,12 @@
 import geopandas as gpd
+import numpy as np
+import pandas as pd
 import pytest
-from shapely.geometry import LineString, Point
+from shapely.geometry import LineString, Point, box
 
-from src.geo import block_midpoint, build_street_index, normalize_street_name, wkt_to_point
+from src.geo import (
+    assign_nta, block_midpoint, build_street_index, location_flags, normalize_street_name, wkt_to_point,
+)
 
 
 @pytest.mark.parametrize("raw, expected", [
@@ -92,3 +96,35 @@ def test_block_midpoint_unknown_on_street_is_none():
 
 def test_block_midpoint_wrong_borough_is_none():
     assert block_midpoint("BROOKLYN", "E 55 ST", "1 AVE", "2 AVE", _grid()) is None
+
+
+def _nta():
+    return gpd.GeoDataFrame(
+        {"nta2020": ["MN0101"], "ntaname": ["Test Hood"], "boroname": ["Manhattan"]},
+        geometry=[box(0, 0, 1, 1)],
+        crs=4326,
+    )
+
+
+def test_assign_nta_inside_outside_missing():
+    df = pd.DataFrame({
+        "lat": [0.5, 5.0, np.nan],
+        "lon": [0.5, 5.0, np.nan],
+    })
+    out = assign_nta(df, _nta())
+    assert out.loc[0, "nta2020"] == "MN0101"
+    assert out.loc[0, "ntaname"] == "Test Hood"
+    assert out.loc[0, "nta_boroname"] == "Manhattan"
+    assert pd.isna(out.loc[1, "nta2020"])
+    assert pd.isna(out.loc[2, "nta2020"])
+    assert len(out) == 3
+
+
+def test_location_flags():
+    df = pd.DataFrame({
+        "lat":          [0.5,         0.5,         5.0,     np.nan],
+        "nta2020":      ["MN0101",    "MN0101",    np.nan,  np.nan],
+        "nta_boroname": ["Manhattan", "Manhattan", np.nan,  np.nan],
+        "boroughname":  ["MANHATTAN", "BROOKLYN",  "MANHATTAN", "MANHATTAN"],
+    })
+    assert location_flags(df).tolist() == ["ok", "borough_mismatch", "outside_nta", "no_location"]

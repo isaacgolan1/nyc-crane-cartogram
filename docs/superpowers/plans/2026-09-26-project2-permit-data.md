@@ -1052,7 +1052,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
   - `assign_nta(df: pd.DataFrame, nta: gpd.GeoDataFrame) -> pd.DataFrame` (input needs `lat`, `lon`; `nta` needs `nta2020`, `ntaname`, `boroname`, geometry. Returns a copy with added `nta2020`, `ntaname`, `nta_boroname`; NaN where no match or no location)
   - `location_flags(df: pd.DataFrame) -> pd.Series` (values `ok`, `outside_nta`, `borough_mismatch`, `no_location`; needs `lat`, `nta2020`, `nta_boroname`, `boroughname`)
 
-- [ ] **Step 1: Append the failing tests to `tests/test_geo.py`**
+- [x] **Step 1: Append the failing tests to `tests/test_geo.py`**
 
 ```python
 import numpy as np
@@ -1096,12 +1096,12 @@ def test_location_flags():
 
 Move the new imports to the top of the file.
 
-- [ ] **Step 2: Run the tests to verify they fail**
+- [x] **Step 2: Run the tests to verify they fail**
 
 Run: `.venv/bin/pytest tests/test_geo.py -v`
 Expected: FAIL with `ImportError: cannot import name 'assign_nta'`
 
-- [ ] **Step 3: Append to `src/geo.py`**
+- [x] **Step 3: Append to `src/geo.py`**
 
 ```python
 def assign_nta(df: pd.DataFrame, nta: gpd.GeoDataFrame) -> pd.DataFrame:
@@ -1139,12 +1139,12 @@ def location_flags(df: pd.DataFrame) -> pd.Series:
     return flags
 ```
 
-- [ ] **Step 4: Run the tests to verify they pass**
+- [x] **Step 4: Run the tests to verify they pass**
 
 Run: `.venv/bin/pytest tests/test_geo.py -v`
 Expected: all passed
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/geo.py tests/test_geo.py
