@@ -1308,7 +1308,7 @@ Put the location-flag counts and the unmatched share in the commit message body.
 
 Lead time needs columns `applicationtrackingid`, `permitissuedate`, `applicationtypeshortdesc`, `emergencyissuedate`.
 
-- [ ] **Step 1: Append the failing lead-time tests to `tests/test_permits.py`**
+- [x] **Step 1: Append the failing lead-time tests to `tests/test_permits.py`**
 
 ```python
 import numpy as np
@@ -1342,7 +1342,7 @@ def test_lead_time_exclusions_counts_each_reason():
     }
 ```
 
-- [ ] **Step 2: Write the failing test `tests/test_stipulations.py`**
+- [x] **Step 2: Write the failing test `tests/test_stipulations.py`**
 
 ```python
 import pandas as pd
@@ -1386,12 +1386,12 @@ def test_has_custom_text():
     assert has_custom_text(text).tolist() == [True, False, False, False]
 ```
 
-- [ ] **Step 3: Run the tests to verify they fail**
+- [x] **Step 3: Run the tests to verify they fail**
 
 Run: `.venv/bin/pytest tests/test_permits.py tests/test_stipulations.py -v`
 Expected: FAIL with `ImportError: cannot import name 'lead_time_days'` and `ModuleNotFoundError: No module named 'src.stipulations'`
 
-- [ ] **Step 4: Append to `src/permits.py`**
+- [x] **Step 4: Append to `src/permits.py`**
 
 Add `from src import config` below `import pandas as pd`, then append:
 
@@ -1422,7 +1422,7 @@ def lead_time_exclusions(permits: pd.DataFrame, max_days: int = config.MAX_LEAD_
     return {k: int(masks[k].sum()) for k in ("not_new", "emergency", "unparsed", "implausible", "used")}
 ```
 
-- [ ] **Step 5: Write `src/stipulations.py`**
+- [x] **Step 5: Write `src/stipulations.py`**
 
 ```python
 """Stipulation burden: which codes are boilerplate, and how many distinctive codes a permit has."""
@@ -1454,12 +1454,12 @@ def has_custom_text(text: pd.Series) -> pd.Series:
     return text.fillna("").str.strip() != ""
 ```
 
-- [ ] **Step 6: Run the tests to verify they pass**
+- [x] **Step 6: Run the tests to verify they pass**
 
 Run: `.venv/bin/pytest -v`
 Expected: all passed (every test file)
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/permits.py tests/test_permits.py src/stipulations.py tests/test_stipulations.py

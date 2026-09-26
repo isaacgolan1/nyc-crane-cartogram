@@ -1,6 +1,8 @@
 """Permit timing: application date from the tracking ID, and lead time."""
 import pandas as pd
 
+from src import config
+
 
 def parse_tracking_date(tracking_id: object) -> pd.Timestamp:
     """Read the first 8 digits of applicationtrackingid as YYYYMMDD.
@@ -42,3 +44,29 @@ def evaluate_tracking_dates(permits: pd.DataFrame) -> dict:
         "median_gap_days": median_gap_days,
         "passed": passed,
     }
+
+
+def _lead_time_masks(permits: pd.DataFrame, max_days: int) -> dict[str, pd.Series]:
+    gap = application_gap_days(permits)
+    is_new = permits["applicationtypeshortdesc"] == "New"
+    emergency = is_new & permits["emergencyissuedate"].notna()
+    candidate = is_new & ~emergency
+    unparsed = candidate & gap.isna()
+    implausible = candidate & gap.notna() & ~gap.between(0, max_days)
+    used = candidate & gap.between(0, max_days)
+    return {
+        "gap": gap, "not_new": ~is_new, "emergency": emergency,
+        "unparsed": unparsed, "implausible": implausible, "used": used,
+    }
+
+
+def lead_time_days(permits: pd.DataFrame, max_days: int = config.MAX_LEAD_TIME_DAYS) -> pd.Series:
+    """Days from application to issue, for New non-emergency permits with a plausible gap."""
+    masks = _lead_time_masks(permits, max_days)
+    return masks["gap"].where(masks["used"])
+
+
+def lead_time_exclusions(permits: pd.DataFrame, max_days: int = config.MAX_LEAD_TIME_DAYS) -> dict[str, int]:
+    """How many permits each lead-time rule removed, and how many were used."""
+    masks = _lead_time_masks(permits, max_days)
+    return {k: int(masks[k].sum()) for k in ("not_new", "emergency", "unparsed", "implausible", "used")}
