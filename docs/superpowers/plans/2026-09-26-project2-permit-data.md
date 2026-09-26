@@ -1484,7 +1484,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 
 `n_new_permits` counts New permits with a usable lead time. That is the number the lead-time threshold applies to.
 
-- [ ] **Step 1: Write the failing test `tests/test_neighborhoods.py`**
+- [x] **Step 1: Write the failing test `tests/test_neighborhoods.py`**
 
 ```python
 import numpy as np
@@ -1554,12 +1554,12 @@ def test_rollup_lead_time_threshold_uses_usable_new_permits():
     assert row["insufficient_data"]
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `.venv/bin/pytest tests/test_neighborhoods.py -v`
 Expected: FAIL with `ModuleNotFoundError: No module named 'src.neighborhoods'`
 
-- [ ] **Step 3: Write `src/neighborhoods.py`**
+- [x] **Step 3: Write `src/neighborhoods.py`**
 
 ```python
 """Roll permit-level metrics up to one row per neighborhood (NTA)."""
@@ -1595,12 +1595,12 @@ def rollup_by_nta(permits: pd.DataFrame, ntas: pd.DataFrame, min_permits: int) -
     return table.sort_values("nta2020").reset_index(drop=True)
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `.venv/bin/pytest tests/test_neighborhoods.py -v`
 Expected: 4 passed
 
-- [ ] **Step 5: Write `scripts/04_analyze.py`**
+- [x] **Step 5: Write `scripts/04_analyze.py`**
 
 ```python
 """Stage 4: compute lead time and stipulation burden per permit, then per neighborhood."""
@@ -1675,7 +1675,7 @@ if __name__ == "__main__":
     main()
 ```
 
-- [ ] **Step 6: Tell Isaac what to expect, then run it**
+- [x] **Step 6: Tell Isaac what to expect, then run it**
 
 What it does: finds the boilerplate codes, counts distinctive stipulations and lead time per permit, then takes medians per Manhattan neighborhood.
 
@@ -1683,13 +1683,13 @@ What he should see: about 9 boilerplate codes (the spike found `012`, `038`, `06
 
 Run: `.venv/bin/python scripts/04_analyze.py`
 
-- [ ] **Step 7: Sanity check (with Isaac)**
+- [x] **Step 7: Sanity check (with Isaac)**
 
 Do Midtown and Financial District neighborhoods rank near the top for stipulations? Do parks (for example Central Park) show `insufficient_data`? If quiet residential areas rank highest, look for a bug before believing it. For example, check that `distinctive_stip_count` is not 0 for most permits, which would mean the permit numbers didn't join.
 
 Also open `data/processed/permit_friction_by_nta.csv` in Excel and scan it.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add src/neighborhoods.py tests/test_neighborhoods.py scripts/04_analyze.py data/processed/permit_friction_by_nta.csv data/processed/distinctive_code_frequency.csv data/processed/stipulation_code_shares.csv

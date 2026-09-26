@@ -1,0 +1,39 @@
+nta2020,nta_name,borough,n_permits,n_new_permits,median_lead_time_days,median_distinctive_stips,pct_custom_text,insufficient_data
+MN0101,Financial District-Battery Park City,Manhattan,248,169,6.0,9.0,100.0,False
+MN0102,Tribeca-Civic Center,Manhattan,216,157,4.0,8.0,100.0,False
+MN0191,The Battery-Governors Island-Ellis Island-Liberty Island,Manhattan,0,0,,,,True
+MN0201,SoHo-Little Italy-Hudson Square,Manhattan,418,289,4.0,11.0,100.0,False
+MN0202,Greenwich Village,Manhattan,243,184,5.0,11.0,100.0,False
+MN0203,West Village,Manhattan,327,224,4.0,10.0,100.0,False
+MN0301,Chinatown-Two Bridges,Manhattan,59,39,6.0,11.0,100.0,False
+MN0302,Lower East Side,Manhattan,85,52,5.0,8.0,100.0,False
+MN0303,East Village,Manhattan,192,105,4.0,10.0,100.0,False
+MN0401,Chelsea-Hudson Yards,Manhattan,541,341,6.0,9.0,100.0,False
+MN0402,Hell's Kitchen,Manhattan,265,165,6.0,10.0,100.0,False
+MN0501,Midtown South-Flatiron-Union Square,Manhattan,419,298,6.0,11.0,100.0,False
+MN0502,Midtown-Times Square,Manhattan,1189,705,6.0,13.0,100.0,False
+MN0601,Stuyvesant Town-Peter Cooper Village,Manhattan,16,10,,,100.0,True
+MN0602,Gramercy,Manhattan,117,88,5.0,11.0,100.0,False
+MN0603,Murray Hill-Kips Bay,Manhattan,214,147,6.0,11.0,100.0,False
+MN0604,East Midtown-Turtle Bay,Manhattan,240,189,5.0,11.0,100.0,False
+MN0661,United Nations,Manhattan,0,0,,,,True
+MN0701,Upper West Side-Lincoln Square,Manhattan,199,131,7.0,10.0,100.0,False
+MN0702,Upper West Side (Central),Manhattan,211,148,6.0,9.0,95.73459715639811,False
+MN0703,Upper West Side-Manhattan Valley,Manhattan,53,34,2.0,9.0,100.0,False
+MN0801,Upper East Side-Lenox Hill-Roosevelt Island,Manhattan,309,198,7.0,9.0,100.0,False
+MN0802,Upper East Side-Carnegie Hill,Manhattan,935,706,6.0,10.0,100.0,False
+MN0803,Upper East Side-Yorkville,Manhattan,148,104,6.0,10.0,100.0,False
+MN0901,Morningside Heights,Manhattan,68,53,3.0,8.0,100.0,False
+MN0902,Manhattanville-West Harlem,Manhattan,56,39,5.0,8.0,100.0,False
+MN0903,Hamilton Heights-Sugar Hill,Manhattan,96,48,4.0,8.0,100.0,False
+MN1001,Harlem (South),Manhattan,91,63,5.0,8.0,100.0,False
+MN1002,Harlem (North),Manhattan,85,55,3.0,10.0,100.0,False
+MN1101,East Harlem (South),Manhattan,116,73,4.0,8.5,100.0,False
+MN1102,East Harlem (North),Manhattan,189,93,4.0,8.0,100.0,False
+MN1191,Randall's Island,Manhattan,0,0,,,,True
+MN1201,Washington Heights (South),Manhattan,101,81,3.0,7.0,100.0,False
+MN1202,Washington Heights (North),Manhattan,84,58,3.0,8.0,100.0,False
+MN1203,Inwood,Manhattan,96,59,4.0,8.0,100.0,False
+MN1291,Highbridge Park,Manhattan,0,0,,,,True
+MN1292,Inwood Hill Park,Manhattan,0,0,,,,True
+MN6491,Central Park,Manhattan,4,3,,,100.0,True
