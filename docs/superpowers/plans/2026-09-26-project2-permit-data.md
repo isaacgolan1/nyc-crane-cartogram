@@ -1822,7 +1822,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 - Create: `docs/PROJECT_2_NOTES.md`
 - Modify: `CLAUDE.md`
 
-- [ ] **Step 1: Write `docs/PROJECT_2_NOTES.md`**
+- [x] **Step 1: Write `docs/PROJECT_2_NOTES.md`**
 
 Use the numbers the scripts printed. Write it for a portfolio reader who doesn't know the project. Use these sections:
 
@@ -1834,7 +1834,7 @@ Use the numbers the scripts printed. Write it for a portfolio reader who doesn't
 6. **Limitations**: tracking-ID date is inferred (or confirmed, per Step 6 of Task 4), embargo codes mix time and place, the 90% cutoff is a shortcut, and pre-2022 data is unused.
 7. **Next questions**: Option C cost buckets, renewal chains, other boroughs, and what Project 4 needs from these two metrics.
 
-- [ ] **Step 2: Update `CLAUDE.md`**
+- [x] **Step 2: Update `CLAUDE.md`**
 
 - In "Project structure", mark Project 2 done and Project 3 current.
 - Under "Permit data sources", replace the sentence that starts "Project 2 design:" with: "Project 2 is done (design: `docs/superpowers/specs/2026-09-25-project2-permit-data-design.md`). Pipeline: run `scripts/01_download.py` to `05_visualize.py` in order. Results: `docs/PROJECT_2_NOTES.md`."
@@ -1844,12 +1844,12 @@ Use the numbers the scripts printed. Write it for a portfolio reader who doesn't
   - "DOT application types: New, Renew, Reissue, Amend and Reissue."
   - Any new gotcha found during Tasks 3–11.
 
-- [ ] **Step 3: Run the full test suite one last time**
+- [x] **Step 3: Run the full test suite one last time**
 
 Run: `.venv/bin/pytest -v`
 Expected: all passed
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add docs/PROJECT_2_NOTES.md CLAUDE.md
