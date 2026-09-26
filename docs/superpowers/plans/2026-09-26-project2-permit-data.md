@@ -418,7 +418,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 - Consumes: `src.config`, `src.download.fetch_csv`, `fetch_csv_for_keys`, `fetch_geojson`
 - Produces (in `data/raw/`, dated): `dot_crane_permits_<date>.csv`, `dot_crane_types_<date>.csv`, `dot_crane_stipulations_<date>.csv` (columns `permitnumber`, `stipulationid`, `stipulationfulltext`), `nta2020_<date>.geojson`
 
-- [ ] **Step 1: Write `scripts/01_download.py`**
+- [x] **Step 1: Write `scripts/01_download.py`**
 
 ```python
 """Stage 1: download DOT crane permits, crane types, stipulations and NTA boundaries.
@@ -478,7 +478,7 @@ if __name__ == "__main__":
     main()
 ```
 
-- [ ] **Step 2: Tell Isaac what to expect, then run it**
+- [x] **Step 2: Tell Isaac what to expect, then run it**
 
 What it does: downloads four files into `data/raw/`, checking each against the API's own row count. It takes about 5–10 minutes, mostly the stipulations batches.
 
@@ -488,7 +488,7 @@ Run: `.venv/bin/python scripts/01_download.py`
 
 Expected: ends with `Done.` and no `RuntimeError`.
 
-- [ ] **Step 3: Verify by hand**
+- [x] **Step 3: Verify by hand**
 
 ```bash
 ls -lh data/raw/
@@ -498,7 +498,7 @@ git status --short data/raw
 
 Expected: four new dated files. `applicationtrackingid` shows 16 digits (not `2.02e+15`). `git status` shows nothing for `data/raw` because the files are gitignored.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add scripts/01_download.py
