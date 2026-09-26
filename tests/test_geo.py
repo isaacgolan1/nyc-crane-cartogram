@@ -5,7 +5,8 @@ import pytest
 from shapely.geometry import LineString, Point, box
 
 from src.geo import (
-    assign_nta, block_midpoint, build_street_index, location_flags, normalize_street_name, wkt_to_point,
+    assign_nta, block_midpoint, build_street_index, location_flags, normalize_street_name,
+    reassign_park_edges, wkt_to_point,
 )
 
 
@@ -128,3 +129,43 @@ def test_location_flags():
         "boroughname":  ["MANHATTAN", "BROOKLYN",  "MANHATTAN", "MANHATTAN"],
     })
     assert location_flags(df).tolist() == ["ok", "borough_mismatch", "outside_nta", "no_location"]
+
+
+def _park_and_hood():
+    """In feet: a regular neighborhood from x=0 to 1000, a park from x=1000 to 2000."""
+    return gpd.GeoDataFrame(
+        {
+            "nta2020": ["MN0501", "MN9991"],
+            "ntaname": ["Upper East Side", "Central Park"],
+            "boroname": ["Manhattan", "Manhattan"],
+            "ntatype": ["0", "9"],
+        },
+        geometry=[box(0, 0, 1000, 1000), box(1000, 0, 2000, 1000)],
+        crs=2263,
+    ).to_crs(4326)
+
+
+def _points_at(xs_ft):
+    """Permits at x positions (feet, y=500), as lat/lon with their NTA assigned."""
+    pts = gpd.GeoSeries([Point(x, 500) for x in xs_ft], crs=2263).to_crs(4326)
+    df = pd.DataFrame({"lat": pts.y, "lon": pts.x})
+    return assign_nta(df, _park_and_hood())
+
+
+def test_reassign_park_edges_moves_point_near_park_edge():
+    out = reassign_park_edges(_points_at([1010]), _park_and_hood())
+    assert out.loc[0, "ntaname"] == "Upper East Side"
+    assert out.loc[0, "nta2020"] == "MN0501"
+    assert out.loc[0, "nta_reassigned"]
+
+
+def test_reassign_park_edges_keeps_point_deep_in_park():
+    out = reassign_park_edges(_points_at([1500]), _park_and_hood())
+    assert out.loc[0, "ntaname"] == "Central Park"
+    assert not out.loc[0, "nta_reassigned"]
+
+
+def test_reassign_park_edges_leaves_other_points_alone():
+    out = reassign_park_edges(_points_at([500]), _park_and_hood())
+    assert out.loc[0, "ntaname"] == "Upper East Side"
+    assert not out.loc[0, "nta_reassigned"]

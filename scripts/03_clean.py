@@ -8,7 +8,9 @@ import geopandas as gpd
 import pandas as pd
 
 from src import config
-from src.geo import assign_nta, block_midpoint, load_centerline_streets, location_flags, wkt_to_point
+from src.geo import (
+    assign_nta, block_midpoint, load_centerline_streets, location_flags, reassign_park_edges, wkt_to_point,
+)
 
 
 def main() -> None:
@@ -51,6 +53,8 @@ def main() -> None:
     # 4. Neighborhood and flags
     nta = gpd.read_file(config.latest_raw("nta2020", ".geojson"))
     permits = assign_nta(permits, nta)
+    permits = reassign_park_edges(permits, nta)
+    print(f"Moved from a park edge to the neighboring NTA: {permits['nta_reassigned'].sum():,}")
     permits["location_flag"] = location_flags(permits)
 
     print("\nLocation flags (all boroughs):")

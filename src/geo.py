@@ -163,6 +163,40 @@ def assign_nta(df: pd.DataFrame, nta: gpd.GeoDataFrame) -> pd.DataFrame:
     return out
 
 
+PARK_NTA_TYPE = "9"   # `ntatype` code for park neighborhoods in the NTA 2020 file
+
+
+def reassign_park_edges(df: pd.DataFrame, nta: gpd.GeoDataFrame, max_distance_ft: float = 100.0) -> pd.DataFrame:
+    """Move points in a park NTA to the nearest non-park NTA within max_distance_ft.
+
+    NTA boundaries run down street centerlines, and so do permit points. A crane on
+    Fifth Avenue lifting onto an Upper East Side building would otherwise land in
+    Central Park. Points deeper inside a park stay there.
+    """
+    out = df.copy()
+    out["nta_reassigned"] = False
+    park_codes = set(nta.loc[nta["ntatype"] == PARK_NTA_TYPE, "nta2020"])
+    in_park = out["nta2020"].isin(park_codes)
+    if not in_park.any():
+        return out
+
+    rows = out[in_park]
+    points = gpd.GeoDataFrame(
+        index=rows.index,
+        geometry=gpd.points_from_xy(rows["lon"].astype(float), rows["lat"].astype(float)),
+        crs=4326,
+    ).to_crs(2263)
+    others = nta.loc[nta["ntatype"] != PARK_NTA_TYPE, ["nta2020", "ntaname", "boroname", "geometry"]].to_crs(2263)
+    near = gpd.sjoin_nearest(points, others, how="inner", max_distance=max_distance_ft)
+    near = near[~near.index.duplicated(keep="first")]
+
+    out.loc[near.index, "nta2020"] = near["nta2020"]
+    out.loc[near.index, "ntaname"] = near["ntaname"]
+    out.loc[near.index, "nta_boroname"] = near["boroname"]
+    out.loc[near.index, "nta_reassigned"] = True
+    return out
+
+
 def location_flags(df: pd.DataFrame) -> pd.Series:
     """Why a permit can or cannot be used in neighborhood metrics."""
     flags = pd.Series("ok", index=df.index, dtype=object)

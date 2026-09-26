@@ -93,7 +93,7 @@ The script prints the evidence either way. If the check fails, lead time is drop
    - Normalize street names (extra spaces, EAST→E, STREET→ST, AVENUE→AVE, number words). The same normalizer runs on centerline names, so both sides always agree.
    - Match the on-street and both cross streets to a centerline block and use the block's midpoint. If only one cross street matches, use that intersection.
    - Write unmatched permits to a file for inspection.
-5. Spatial join each point to an NTA.
+5. Spatial join each point to an NTA. NTA boundaries run down street centerlines, so a point that lands in a park NTA (`ntatype` 9) moves to the nearest non-park NTA within 100 ft. Example: a crane on Fifth Avenue lifting onto an Upper East Side building would otherwise count for Central Park. Points deeper inside a park stay there. (Added during implementation, 2026-09-26.)
 6. Flag points outside every NTA, and points whose NTA borough differs from the permit's `boroughname`. Exclude both from metrics.
 
 Output: `crane_permits_clean.csv`, one row per permit, with lat/lon, NTA, borough, and a location source column (`dot_geometry` or `centerline_geocode`). The file opens in Excel.

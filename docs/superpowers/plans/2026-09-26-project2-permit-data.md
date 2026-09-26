@@ -1166,7 +1166,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
   - `data/processed/crane_permits_clean.csv`: all raw permit columns plus `lat`, `lon`, `location_source` (`dot_geometry` / `centerline_geocode` / empty), `nta2020`, `ntaname`, `nta_boroname`, `location_flag`. One row per `permitnumber`. All boroughs.
   - `data/processed/geocode_unmatched.csv`: permits with no location, for inspection
 
-- [ ] **Step 1: Write `scripts/03_clean.py`**
+- [x] **Step 1: Write `scripts/03_clean.py`**
 
 ```python
 """Stage 3: remove duplicates, give every permit a location, and assign its neighborhood."""
@@ -1247,7 +1247,7 @@ if __name__ == "__main__":
     main()
 ```
 
-- [ ] **Step 2: Tell Isaac what to expect, then run it**
+- [x] **Step 2: Tell Isaac what to expect, then run it**
 
 What it does: removes duplicate permits, then gives each permit a location. It uses DOT's line when present and street-name geocoding otherwise. It then finds each permit's neighborhood and flags problems. Loading the centerline takes about a minute.
 
@@ -1255,12 +1255,12 @@ What he should see: a funnel, about 77% located from DOT geometry, most of the r
 
 Run: `.venv/bin/python scripts/03_clean.py`
 
-- [ ] **Step 3: Geocode gate**
+- [x] **Step 3: Geocode gate**
 
 - **Unmatched share at or below 5%:** continue.
 - **Above 5%:** open `data/processed/geocode_unmatched.csv` and look for repeating name patterns. First try adding aliases to `_ALIASES` in `src/geo.py`, each with a test in `tests/test_geo.py`, then rerun. If it is still above 5%, stop and discuss NYC Geoclient with Isaac, as the spec says.
 
-- [ ] **Step 4: Manual spot check (with Isaac)**
+- [x] **Step 4: Manual spot check (with Isaac)**
 
 ```bash
 .venv/bin/python -c "
@@ -1273,7 +1273,11 @@ print(ok.sample(5, random_state=1)[['permitnumber','permithousenumber','onstreet
 
 For each of the 5 rows, paste `lat,lon` into Google Maps. Confirm the pin sits on the named street and inside the named neighborhood. Include at least one `centerline_geocode` row; rerun with another `random_state` if none appear.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 4b (added during execution): Park-edge fix**
+
+The spot check found 820 Fifth Ave assigned to Central Park: 230 Manhattan permits on park-edge streets landed in park NTAs. Isaac chose option A: `reassign_park_edges` in `src/geo.py` (with 3 tests) moves points in a park NTA to the nearest non-park NTA within 100 ft. Result: 289 permits moved citywide; 4 Manhattan permits remain in Central Park (East Drive, inside the park). About 11% of points sit on a boundary between two regular NTAs; that stays as-is and goes in the notes.
+
+- [x] **Step 5: Commit**
 
 ```bash
 git add scripts/03_clean.py src/geo.py tests/test_geo.py
