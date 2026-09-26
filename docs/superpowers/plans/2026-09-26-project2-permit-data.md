@@ -854,7 +854,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 
 All geometry here is EPSG:2263 (feet). Conversion to lat/lon happens in stage 3.
 
-- [ ] **Step 1: Append the failing tests to `tests/test_geo.py`**
+- [x] **Step 1: Append the failing tests to `tests/test_geo.py`**
 
 ```python
 import geopandas as gpd
@@ -924,12 +924,12 @@ def test_block_midpoint_wrong_borough_is_none():
 
 Move the new imports to the top of the file next to the existing ones.
 
-- [ ] **Step 2: Run the tests to verify they fail**
+- [x] **Step 2: Run the tests to verify they fail**
 
 Run: `.venv/bin/pytest tests/test_geo.py -v`
 Expected: FAIL with `ImportError: cannot import name 'block_midpoint'`
 
-- [ ] **Step 3: Add the functions to `src/geo.py`**
+- [x] **Step 3: Add the functions to `src/geo.py`**
 
 Replace the single `import re` line at the top of `src/geo.py` with this import block:
 
@@ -1026,12 +1026,12 @@ def block_midpoint(
     return LineString(crossings).interpolate(0.5, normalized=True)
 ```
 
-- [ ] **Step 4: Run the tests to verify they pass**
+- [x] **Step 4: Run the tests to verify they pass**
 
 Run: `.venv/bin/pytest tests/test_geo.py -v`
 Expected: all passed
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/geo.py tests/test_geo.py
