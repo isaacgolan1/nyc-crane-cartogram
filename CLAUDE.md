@@ -44,7 +44,7 @@ Six mini-projects, each shareable on its own:
 DOT street crane permits are a better fit than general DOB permits: each record is a crane placed on a street. Project 2 design: `docs/superpowers/specs/2026-09-25-project2-permit-data-design.md`.
 - `tqtj-sjs8` Street Construction Permits (2022–present) and `c9sj-fmsg` (2013–2021, actually goes back to 1991). Same columns; stack them. Filter `permittypedesc = 'PLACE CRANE OR SHOVEL ON STREET'`. About 16.7k crane permits in the new set (77% have `locationgeometry`), about 148k in the old set (99% have geometry). No NTA column, so neighborhoods need a spatial join.
 - `hcv3-zacv` Cranes: crane type per permit (mobile, crawler, tower). Joins on `permitnumber` to either permit dataset.
-- No explicit application date. The first 8 digits of `applicationtrackingid` look like one (YYYYMMDD), but this is unverified.
+- No explicit application date. The first 8 digits of `applicationtrackingid` are read as one (YYYYMMDD). This passed all checks on 2026-09-26 (100% parse, 100% on or before issue date, median gap 3 days), but DOT's data dictionary does not document it, so it stays an inference.
 - `specificstipulations` is free text with permit conditions (flaggers, work hours, bike lanes). Possible friction signal.
 - Backup: `w9ak-ipjd` DOB NOW Build Job Filings. Has `filing_date`, `approved_date` (87% filled) and `nta` (99.7% filled), but covers all building jobs, not cranes.
 

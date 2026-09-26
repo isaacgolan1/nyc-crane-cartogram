@@ -719,7 +719,7 @@ Record the PASS/FAIL result and the three numbers in the commit message body.
 **Interfaces:**
 - Produces: `normalize_street_name(name: object) -> str` (returns `""` for missing input; idempotent)
 
-- [ ] **Step 1: Write the failing test `tests/test_geo.py`**
+- [x] **Step 1: Write the failing test `tests/test_geo.py`**
 
 ```python
 import pytest
@@ -757,12 +757,12 @@ def test_normalize_missing_is_empty(missing):
     assert normalize_street_name(missing) == ""
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `.venv/bin/pytest tests/test_geo.py -v`
 Expected: FAIL with `ModuleNotFoundError: No module named 'src.geo'`
 
-- [ ] **Step 3: Write `src/geo.py`**
+- [x] **Step 3: Write `src/geo.py`**
 
 ```python
 """Locations: street-name matching, centerline geocoding, neighborhood (NTA) assignment."""
@@ -821,12 +821,12 @@ def _join_letter_runs(words: list[str]) -> list[str]:
     return out
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `.venv/bin/pytest tests/test_geo.py -v`
 Expected: all passed
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/geo.py tests/test_geo.py
