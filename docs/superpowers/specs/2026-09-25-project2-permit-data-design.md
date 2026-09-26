@@ -21,7 +21,7 @@ Project 2 produces two separate neighborhood metrics. They are combined with cra
 | Neighborhood unit | NTA 2020 boundaries (citywide file) | Official, covers all five boroughs, so nothing changes when expanding. |
 | Metrics | Two separate metrics: lead time and stipulation burden | Different units (days vs count). Weighting happens once, in Project 4. |
 | Permits without location (23%) | Geocode from street names against the centerline file. NYC Geoclient only if more than 5% stay unmatched. | Keeps nearly all data, avoids bias if missing locations cluster, reuses Project 1 data. |
-| Application types | Lead time from `New` permits only. Stipulations from all types (New, Renew, Reissue). | Renewals issue fast and would hide the real first-approval wait. Every permit's conditions apply to the work. |
+| Application types | Lead time from `New` permits only. Stipulations from all types (New, Renew, Reissue, Amend and Reissue). | Renewals issue fast and would hide the real first-approval wait. Every permit's conditions apply to the work. |
 | Thin neighborhoods | Minimum 20 permits per metric (setting). Below that, the metric is blank and the neighborhood is flagged `insufficient_data`. | A median from 3 permits is noise. Honest gray on the map beats a fake number. |
 | Stipulation counting | Count only codes that tell neighborhoods apart (drop codes on more than 90% of crane permits), plus a flag for custom free text | Codes on every permit add the same amount everywhere and hide real differences. |
 | Code structure | Script pipeline with shared modules in `src/` (Approach 1) | Matches project conventions. Modules carry into Projects 3–6. |
@@ -88,10 +88,10 @@ The script prints the evidence either way. If the check fails, lead time is drop
 
 1. Parse dates.
 2. Check `permitnumber` uniqueness. Report duplicates and keep the latest `modifiedon`.
-3. Use `locationgeometry` where present.
+3. Use the `wkt` column where present (text geometry in EPSG:2263, feet). `locationgeometry` holds the same data as a binary blob and is not used.
 4. For permits without it, geocode from `onstreetname` + `fromstreetname` / `tostreetname`:
-   - Normalize street names (extra spaces, EAST→E, STREET→ST, AVENUE→AV, number words).
-   - Match the on-street and both cross streets to a centerline block and use the block's midpoint.
+   - Normalize street names (extra spaces, EAST→E, STREET→ST, AVENUE→AVE, number words). The same normalizer runs on centerline names, so both sides always agree.
+   - Match the on-street and both cross streets to a centerline block and use the block's midpoint. If only one cross street matches, use that intersection.
    - Write unmatched permits to a file for inspection.
 5. Spatial join each point to an NTA.
 6. Flag points outside every NTA, and points whose NTA borough differs from the permit's `boroughname`. Exclude both from metrics.

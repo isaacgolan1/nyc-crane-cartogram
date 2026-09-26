@@ -11,3 +11,7 @@ data/raw/*.geojson
 
 # macOS
 .DS_Store
+
+# Large processed files (rebuilt by scripts/03 and 04)
+data/processed/crane_permit*.csv
+data/processed/geocode_unmatched.csv
