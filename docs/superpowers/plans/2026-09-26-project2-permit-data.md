@@ -58,7 +58,7 @@ These came from checking the real data on 2026-09-26. Task 1 updates the spec to
 **Interfaces:**
 - Produces: `src.config` module with `ROOT`, `RAW_DIR`, `PROCESSED_DIR`, `OUTPUTS_DIR`, `CENTERLINE_FILE`, `BOROUGHS: list[str]`, `START_DATE: str`, `END_DATE: str | None`, `BOILERPLATE_CUTOFF: float`, `MIN_PERMITS: int`, `GEOCODE_FALLBACK_TRIGGER: float`, `MAX_LEAD_TIME_DAYS: int`, `CRANE_PERMIT_TYPE: str`, `DATASETS: dict[str, str]`, `latest_raw(prefix: str, suffix: str = ".csv", raw_dir: Path = RAW_DIR) -> Path`
 
-- [ ] **Step 1: Create the virtual environment**
+- [x] **Step 1: Create the virtual environment**
 
 Tell Isaac: a virtual environment is a private copy of Python for this project, so packages installed here don't affect anything else on the Mac.
 
@@ -70,7 +70,7 @@ cd /Users/cas/Desktop/nyc-crane-cartogram
 
 Expected: `Python 3.14.x`
 
-- [ ] **Step 2: Write `requirements.txt` and install**
+- [x] **Step 2: Write `requirements.txt` and install**
 
 ```text
 pandas>=2.2
@@ -87,7 +87,7 @@ pytest>=8.0
 
 Expected: `ok 1.x.x`. If `pip` fails with an SSL error, stop and report it. Do not work around it with `--trusted-host`.
 
-- [ ] **Step 3: Write `pytest.ini` and `src/__init__.py`**
+- [x] **Step 3: Write `pytest.ini` and `src/__init__.py`**
 
 `pytest.ini`:
 
@@ -99,7 +99,7 @@ testpaths = tests
 
 `src/__init__.py`: empty file.
 
-- [ ] **Step 4: Write the failing test `tests/test_config.py`**
+- [x] **Step 4: Write the failing test `tests/test_config.py`**
 
 ```python
 from pathlib import Path
@@ -131,12 +131,12 @@ def test_settings_match_spec():
     assert config.MIN_PERMITS == 20
 ```
 
-- [ ] **Step 5: Run the test to verify it fails**
+- [x] **Step 5: Run the test to verify it fails**
 
 Run: `.venv/bin/pytest tests/test_config.py -v`
 Expected: FAIL with `ImportError: cannot import name 'config' from 'src'`
 
-- [ ] **Step 6: Write `src/config.py`**
+- [x] **Step 6: Write `src/config.py`**
 
 ```python
 """Project-wide settings. Change values here, not in the scripts."""
@@ -182,12 +182,12 @@ def latest_raw(prefix: str, suffix: str = ".csv", raw_dir: Path = RAW_DIR) -> Pa
     return matches[-1]
 ```
 
-- [ ] **Step 7: Run the test to verify it passes**
+- [x] **Step 7: Run the test to verify it passes**
 
 Run: `.venv/bin/pytest tests/test_config.py -v`
 Expected: 3 passed
 
-- [ ] **Step 8: Keep large processed files out of git**
+- [x] **Step 8: Keep large processed files out of git**
 
 Append to `.gitignore`:
 
@@ -198,7 +198,7 @@ data/processed/crane_permit*.csv
 data/processed/geocode_unmatched.csv
 ```
 
-- [ ] **Step 9: Apply the spec corrections**
+- [x] **Step 9: Apply the spec corrections**
 
 In `docs/superpowers/specs/2026-09-25-project2-permit-data-design.md`:
 - Stage 3 step 3: replace "Use `locationgeometry` where present." with "Use the `wkt` column where present (text geometry in EPSG:2263, feet). `locationgeometry` holds the same data as a binary blob and is not used."
@@ -206,7 +206,7 @@ In `docs/superpowers/specs/2026-09-25-project2-permit-data-design.md`:
 - Stage 3 step 4 matching: add "If only one cross street matches, use that intersection."
 - Decisions table, Application types row: replace "(New, Renew, Reissue)" with "(New, Renew, Reissue, Amend and Reissue)".
 
-- [ ] **Step 10: Commit**
+- [x] **Step 10: Commit**
 
 ```bash
 git add requirements.txt pytest.ini src/__init__.py src/config.py tests/test_config.py .gitignore docs/superpowers/specs/2026-09-25-project2-permit-data-design.md
@@ -237,7 +237,7 @@ Tell Isaac how to verify: `.venv/bin/pytest -v` shows 3 passed.
   - `fetch_csv_for_keys(dataset_id: str, column: str, keys: list[str], batch_size: int = 100, select: str | None = None) -> pd.DataFrame`
   - `fetch_geojson(dataset_id: str, out_path: Path) -> int` (returns feature count)
 
-- [ ] **Step 1: Write the failing test `tests/test_download.py`**
+- [x] **Step 1: Write the failing test `tests/test_download.py`**
 
 Only the pure helpers are tested. Network calls are checked by hand in Task 3.
 
@@ -276,12 +276,12 @@ def test_in_clause_escapes_single_quotes():
     assert in_clause("name", ["O'NEIL"]) == "name in('O''NEIL')"
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run: `.venv/bin/pytest tests/test_download.py -v`
 Expected: FAIL with `ModuleNotFoundError: No module named 'src.download'`
 
-- [ ] **Step 3: Write `src/download.py`**
+- [x] **Step 3: Write `src/download.py`**
 
 ```python
 """Download NYC Open Data (SODA API) with curl.
@@ -393,12 +393,12 @@ def fetch_geojson(dataset_id: str, out_path: Path) -> int:
     return features
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run: `.venv/bin/pytest tests/test_download.py -v`
 Expected: 5 passed
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/download.py tests/test_download.py
