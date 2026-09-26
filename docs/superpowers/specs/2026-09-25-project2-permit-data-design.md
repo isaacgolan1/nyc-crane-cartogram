@@ -28,6 +28,8 @@ Project 2 produces two separate neighborhood metrics. They are combined with cra
 
 ## Data sources
 
+All data except the centerline comes from NYC Open Data's SODA API ("the API" in this spec). Each dataset has a URL of the form `https://data.cityofnewyork.us/resource/<id>.csv`, which accepts filters such as `$where` and `$limit`, so the server filters before sending.
+
 | Dataset | ID | Use |
 |---|---|---|
 | Street Construction Permits (2022–Present) | `tqtj-sjs8` | Core permit records, filtered to crane type |
