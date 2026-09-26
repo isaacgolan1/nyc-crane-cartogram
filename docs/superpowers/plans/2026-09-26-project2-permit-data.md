@@ -1709,11 +1709,11 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 - Consumes: `crane_permit_metrics.csv`, `permit_friction_by_nta.csv`, `distinctive_code_frequency.csv`
 - Produces: `outputs/p2_lead_time_distribution.png`, `outputs/p2_lead_time_by_nta.png`, `outputs/p2_stipulations_by_nta.png`, `outputs/p2_top_distinctive_codes.png`
 
-- [ ] **Step 1: Load the dataviz skill**
+- [x] **Step 1: Load the dataviz skill**
 
 Invoke the `dataviz` skill before writing chart code and apply its guidance on color, labels and axes to the code below. Keep the four charts and file names unchanged.
 
-- [ ] **Step 2: Write `scripts/05_visualize.py`**
+- [x] **Step 2: Write `scripts/05_visualize.py`**
 
 ```python
 """Stage 5: four charts of the permit-friction results."""
@@ -1794,18 +1794,18 @@ if __name__ == "__main__":
     main()
 ```
 
-- [ ] **Step 3: Tell Isaac what to expect, then run it**
+- [x] **Step 3: Tell Isaac what to expect, then run it**
 
 What it does: reads the stage 4 files and saves four PNG charts to `outputs/`.
 
 Run: `.venv/bin/python scripts/05_visualize.py`
 Expected: four `outputs/p2_*.png` lines printed.
 
-- [ ] **Step 4: Verify by eye (with Isaac)**
+- [x] **Step 4: Verify by eye (with Isaac)**
 
 Open each PNG. Check that labels are readable, no neighborhood names are cut off, and light bars are the lowest values. Check that the numbers match the top-5 lists printed by stage 4.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add scripts/05_visualize.py outputs/p2_*.png
